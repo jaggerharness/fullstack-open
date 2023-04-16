@@ -11,19 +11,15 @@ const Content = (props) =>
     <Part key={element.name} part={element} />
   ));
 
-const calculateTotalExercises = (parts) => {
-  return parts.reduce(
+const calculateTotalExercises = (parts) =>
+  parts.reduce(
     (accumulator, currentValue) => accumulator + currentValue.exercises,
     0
   );
-};
 
 const Total = (props) => (
-  <p>
-    Number of exercises {calculateTotalExercises(props.course.parts)}
-  </p>
+  <p>Number of exercises {calculateTotalExercises(props.course.parts)}</p>
 );
-
 
 const App = () => {
   const course = {
