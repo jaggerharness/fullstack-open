@@ -12,7 +12,7 @@ const Part = (props) => {
 
 const Content = (props) => {
   const parts = [];
-  props.course.parts.forEach((element) => {
+  props.course.parts.map((element) => {
     parts.push(<Part key={element.name} part={element} />);
   });
   return parts;
@@ -20,9 +20,7 @@ const Content = (props) => {
 
 const Total = (props) => {
   let total = 0;
-  props.course.parts.forEach((element) => {
-    total += element.exercises;
-  });
+  props.course.parts.map((element) => (total += element.exercises));
   return <p>Number of exercises {total}</p>;
 };
 
