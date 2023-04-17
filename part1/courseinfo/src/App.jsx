@@ -1,13 +1,13 @@
-const Header = (props) => <h1>{props.course.name}</h1>;
+const Header = ({course}) => <h1>{course.name}</h1>;
 
-const Part = (props) => (
+const Part = ({part}) => (
   <p>
-    {props.part.name} {props.part.exercises}
+    {part.name} {part.exercises}
   </p>
 );
 
-const Content = (props) =>
-  props.course.parts.map((element) => (
+const Content = ({course}) =>
+  course.parts.map((element) => (
     <Part key={element.name} part={element} />
   ));
 
@@ -17,8 +17,8 @@ const calculateTotalExercises = (parts) =>
     0
   );
 
-const Total = (props) => (
-  <p>Number of exercises {calculateTotalExercises(props.course.parts)}</p>
+const Total = ({course}) => (
+  <p>Number of exercises {calculateTotalExercises(course.parts)}</p>
 );
 
 const App = () => {
