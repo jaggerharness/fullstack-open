@@ -6,8 +6,8 @@ const Part = ({part}) => (
   </p>
 );
 
-const Content = ({course}) =>
-  course.parts.map((element) => (
+const Content = ({parts}) =>
+  parts.map((element) => (
     <Part key={element.name} part={element} />
   ));
 
@@ -17,8 +17,8 @@ const calculateTotalExercises = (parts) =>
     0
   );
 
-const Total = ({course}) => (
-  <p>Number of exercises {calculateTotalExercises(course.parts)}</p>
+const Total = ({parts}) => (
+  <p>Number of exercises {calculateTotalExercises(parts)}</p>
 );
 
 const App = () => {
@@ -43,8 +43,8 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content course={course} />
-      <Total course={course} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   );
 };
