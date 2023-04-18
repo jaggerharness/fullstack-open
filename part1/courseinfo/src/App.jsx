@@ -7,8 +7,8 @@ const Part = ({part}) => (
 );
 
 const Content = ({parts}) =>
-  parts.map((element) => (
-    <Part key={element.name} part={element} />
+  parts.map((part) => (
+    <Part key={part.name} part={part} />
   ));
 
 const calculateTotalExercises = (parts) =>
