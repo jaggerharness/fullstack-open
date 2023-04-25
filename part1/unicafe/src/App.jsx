@@ -9,12 +9,32 @@ const App = () => {
   const [average, setAverage] = useState(0);
   const [positive, setPositive] = useState(0);
 
+  const handleFeedback = (feedback) => {
+    switch (feedback) {
+      case "good":
+        const updatedGood = good + 1;
+        setGood(updatedGood);
+        setAll(updatedGood + neutral + bad);
+        break;
+      case "neutral":
+        const updatedNeutral = neutral + 1;
+        setNeutral(updatedNeutral);
+        setAll(good + updatedNeutral + bad);
+        break;
+      default:
+        const updatedBad = bad + 1;
+        setBad(updatedBad);
+        setAll(good + neutral + updatedBad);
+        break;
+    }
+  };
+
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
+      <button onClick={() => handleFeedback("good")}>good</button>
+      <button onClick={() => handleFeedback("neutral")}>neutral</button>
+      <button onClick={() => handleFeedback("bad")}>bad</button>
       <h1>statistics</h1>
       <div>good {good}</div>
       <div>neutral {neutral}</div>
