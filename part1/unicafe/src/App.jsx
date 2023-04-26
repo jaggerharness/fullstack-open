@@ -10,21 +10,25 @@ const App = () => {
   const [positive, setPositive] = useState(0);
 
   const handleFeedback = (feedback) => {
+    let total = 0;
     switch (feedback) {
       case "good":
         const updatedGood = good + 1;
         setGood(updatedGood);
-        setAll(updatedGood + neutral + bad);
+        total = updatedGood + neutral + bad;
+        setAll(total);
         break;
       case "neutral":
         const updatedNeutral = neutral + 1;
         setNeutral(updatedNeutral);
-        setAll(good + updatedNeutral + bad);
+        total = good + updatedNeutral + bad;
+        setAll(total);
         break;
       default:
         const updatedBad = bad + 1;
         setBad(updatedBad);
-        setAll(good + neutral + updatedBad);
+        total = good + neutral + updatedBad;
+        setAll(total);
         break;
     }
   };
