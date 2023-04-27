@@ -4,6 +4,18 @@ const Button = ({ handleClick, text }) => {
   return <button onClick={handleClick}>{text}</button>;
 };
 
+const Statistics = ({ good, neutral, bad, all, average, positive }) => (
+  <>
+    <h1>statistics</h1>
+    <div>good {good}</div>
+    <div>neutral {neutral}</div>
+    <div>bad {bad}</div>
+    <div>all {all}</div>
+    <div>average {average}</div>
+    <div>positive {positive}%</div>
+  </>
+);
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -13,39 +25,41 @@ const App = () => {
   const [average, setAverage] = useState(0);
   const [positive, setPositive] = useState(0);
 
+  // helper function to update calculated values
+  const updateStatistics = ({ updatedGood, updatedNeutral, updatedBad }) => {
+    const updatedTotal = updatedGood + updatedNeutral + updatedBad;
+    const updatedAverage = updatedTotal === 0 ? 0 : (updatedGood - updatedBad) / updatedTotal;
+    const updatedPositive = updatedTotal === 0 ? 0 : updatedGood / updatedTotal;
+    setAll(updatedTotal);
+    setAverage(updatedAverage);
+    setPositive(updatedPositive * 100);
+  };
+
+  // handle button click
   const recordFeedback = (feedback) => {
     // init variables
-    let updated_feedback = 0;
-    let updated_total = 0;
-    let updated_average = 0;
-    let updated_positive = 0;
+    let updatedGood = good;
+    let updatedNeutral = neutral;
+    let updatedBad = bad;
 
     if (feedback === "good") {
-      // updated state
-      updated_feedback = good + 1;
-      updated_total = updated_feedback + neutral + bad;
-      updated_average = (updated_feedback - bad) / updated_total;
-      updated_positive = updated_feedback / updated_total;
-      setGood(updated_feedback);
+      updatedGood += 1;
+      setGood(updatedGood);
     } else if (feedback === "neutral") {
-      // updated state
-      updated_feedback = neutral + 1;
-      updated_total = good + updated_feedback + bad;
-      updated_average = (good - bad) / updated_total;
-      updated_positive = good / updated_total;
-      setNeutral(updated_feedback);
+      updatedNeutral += 1;
+      setNeutral(updatedNeutral);
     } else {
-      // updated state
-      updated_feedback = bad + 1;
-      updated_total = good + neutral + updated_feedback;
-      updated_average = (good - updated_feedback) / updated_total;
-      updated_positive = good / updated_total;
-      setBad(updated_feedback);
+      updatedBad += 1;
+      setBad(updatedBad);
     }
 
-    setAll(updated_total);
-    setAverage(updated_average);
-    setPositive(updated_positive * 100);
+    const feedbackObj = {
+      updatedGood: updatedGood,
+      updatedNeutral: updatedNeutral,
+      updatedBad: updatedBad,
+    };
+
+    updateStatistics({ ...feedbackObj });
   };
 
   return (
@@ -57,13 +71,14 @@ const App = () => {
         text="neutral"
       ></Button>
       <Button handleClick={() => recordFeedback("bad")} text="bad"></Button>
-      <h1>statistics</h1>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {all}</div>
-      <div>average {average}</div>
-      <div>positive {positive}%</div>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={all}
+        average={average}
+        positive={positive}
+      />
     </div>
   );
 };
