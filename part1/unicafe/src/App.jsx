@@ -25,7 +25,6 @@ const App = () => {
   const [average, setAverage] = useState(0);
   const [positive, setPositive] = useState(0);
 
-  // helper function to update calculated values
   const updateStatistics = ({ updatedGood, updatedNeutral, updatedBad }) => {
     const updatedTotal = updatedGood + updatedNeutral + updatedBad;
     const updatedAverage = updatedTotal === 0 ? 0 : (updatedGood - updatedBad) / updatedTotal;
@@ -37,7 +36,6 @@ const App = () => {
 
   // handle button click
   const recordFeedback = (feedback) => {
-    // init variables
     let updatedGood = good;
     let updatedNeutral = neutral;
     let updatedBad = bad;
