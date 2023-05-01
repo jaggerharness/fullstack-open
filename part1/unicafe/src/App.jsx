@@ -11,8 +11,17 @@ const StatisticLine = ({ text, value }) => (
   </tr>
 );
 
-const Statistics = ({ good, neutral, bad, all, average, positive }) =>
-  all != 0 ? (
+const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  if (all === 0) {
+    return (
+      <>
+        <h1>statistics</h1>
+        <div>No feedback given.</div>
+      </>
+    );
+  }
+
+  return (
     <>
       <h1>statistics</h1>
       <table>
@@ -26,12 +35,8 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) =>
         </tbody>
       </table>
     </>
-  ) : (
-    <>
-      <h1>statistics</h1>
-      <div>No feedback given.</div>
-    </>
   );
+};
 
 const App = () => {
   // save clicks of each button to its own state
