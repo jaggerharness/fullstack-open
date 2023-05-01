@@ -4,17 +4,34 @@ const Button = ({ handleClick, text }) => {
   return <button onClick={handleClick}>{text}</button>;
 };
 
-const Statistics = ({ good, neutral, bad, all, average, positive }) => (
-  <>
-    <h1>statistics</h1>
-    <div>good {good}</div>
-    <div>neutral {neutral}</div>
-    <div>bad {bad}</div>
-    <div>all {all}</div>
-    <div>average {average}</div>
-    <div>positive {positive}%</div>
-  </>
+const StatisticLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{text === "positive" ? `${value}%` : `${value}`}</td>
+  </tr>
 );
+
+const Statistics = ({ good, neutral, bad, all, average, positive }) =>
+  all != 0 ? (
+    <>
+      <h1>statistics</h1>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={all} />
+          <StatisticLine text="average" value={average} />
+          <StatisticLine text="positive" value={positive} />
+        </tbody>
+      </table>
+    </>
+  ) : (
+    <>
+      <h1>statistics</h1>
+      <div>No feedback given.</div>
+    </>
+  );
 
 const App = () => {
   // save clicks of each button to its own state
@@ -27,7 +44,8 @@ const App = () => {
 
   const updateStatistics = ({ updatedGood, updatedNeutral, updatedBad }) => {
     const updatedTotal = updatedGood + updatedNeutral + updatedBad;
-    const updatedAverage = updatedTotal === 0 ? 0 : (updatedGood - updatedBad) / updatedTotal;
+    const updatedAverage =
+      updatedTotal === 0 ? 0 : (updatedGood - updatedBad) / updatedTotal;
     const updatedPositive = updatedTotal === 0 ? 0 : updatedGood / updatedTotal;
     setAll(updatedTotal);
     setAverage(updatedAverage);
