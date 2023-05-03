@@ -1,24 +1,21 @@
-const Header = ({course}) => <h1>{course.name}</h1>;
+const Header = ({ course }) => <h1>{course.name}</h1>;
 
-const Part = ({part}) => (
+const Part = ({ part }) => (
   <p>
     {part.name} {part.exercises}
   </p>
 );
 
-const Content = ({parts}) =>
-  parts.map((part) => (
-    <Part key={part.name} part={part} />
-  ));
+const Content = ({ parts }) =>
+  parts.map((part) => <Part key={part.name} part={part} />);
 
-const calculateTotalExercises = (parts) =>
-  parts.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.exercises,
-    0
-  );
-
-const Total = ({parts}) => (
-  <p>Number of exercises {calculateTotalExercises(parts)}</p>
+const Total = ({ parts }) => (
+  <p>
+    {`Number of exercises ${parts.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.exercises,
+      0
+    )}`}
+  </p>
 );
 
 const App = () => {
