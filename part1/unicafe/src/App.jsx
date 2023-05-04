@@ -15,7 +15,6 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) => {
   if (all === 0) {
     return (
       <>
-        <h1>statistics</h1>
         <div>No feedback given.</div>
       </>
     );
@@ -23,7 +22,6 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) => {
 
   return (
     <>
-      <h1>statistics</h1>
       <table>
         <tbody>
           <StatisticLine text="good" value={good} />
@@ -92,6 +90,7 @@ const App = () => {
         text="neutral"
       ></Button>
       <Button handleClick={() => recordFeedback("bad")} text="bad"></Button>
+      <h1>statistics</h1>
       <Statistics
         good={good}
         neutral={neutral}
