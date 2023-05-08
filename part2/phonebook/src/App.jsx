@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import "./index.css";
 import personService from "./services/persons";
 
 const PhonebookList = ({ persons, search, handleDeletePerson }) => {
@@ -65,11 +65,23 @@ const SearchFilter = ({ search, handleSearchChanged }) => {
   );
 };
 
+const Notification = ({ message }) => {
+  if (message.message === "") {
+    return null;
+  } else {
+    if (message.type === "success") {
+      return <div className="success">{message.message}</div>;
+    }
+    return <div className="error">{message.message}</div>;
+  }
+};
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [message, setMessage] = useState({ message: "", type: "" });
 
   useEffect(() => {
     personService.getAll().then((response) => {
@@ -95,12 +107,23 @@ const App = () => {
                 person.id === updatedPerson.id ? updatedPerson : person
               )
             );
-            alert("Number updated successfully!");
+            setMessage({
+              message: "Number updated successfully!",
+              type: "success",
+            });
+            setTimeout(() => {
+              setMessage({ message: "", type: "" });
+            }, 3000);
           })
           .catch((response) => {
-            alert(
-              "An unexpected error occurred while updating the phone number. Please try again!"
-            );
+            setMessage({
+              message:
+                "An unexpected error occurred while updating the phone number. Please try again!",
+              type: "error",
+            });
+            setTimeout(() => {
+              setMessage({ message: "", type: "" });
+            }, 3000);
             window.location.reload();
           });
       }
@@ -111,6 +134,10 @@ const App = () => {
       };
       personService.create(newPerson).then((response) => {
         setPersons(persons.concat(response.data));
+        setMessage({ message: "New entry added successfully!", type: "success" });
+        setTimeout(() => {
+          setMessage({ message: "", type: "" });
+        }, 3000);
       });
     }
 
@@ -139,10 +166,19 @@ const App = () => {
       personService
         .deletePerson(event.target.value)
         .then((response) => {
-          alert("Deleted successfully!");
+          setMessage({ message: "Deleted successfully!", type: "success" });
+          setTimeout(() => {
+            setMessage({ message: "", type: "" });
+          }, 3000);
         })
         .catch((response) => {
-          alert("This user was already deleted from the phonebook.");
+          setMessage({
+            message: "This user was already deleted from the phonebook.",
+            type: "error",
+          });
+          setTimeout(() => {
+            setMessage({ message: "", type: "" });
+          }, 3000);
         });
       setPersons(
         persons.filter((person) => person.id !== parseInt(event.target.value))
@@ -152,6 +188,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
       <SearchFilter search={search} handleSearchChanged={handleSearchChanged} />
       <AddNewForm
         handleAddNew={handleAddNew}
