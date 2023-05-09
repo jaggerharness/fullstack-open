@@ -87,6 +87,12 @@ const Weather = ({ country }) => {
     <>
       <h3>Weather in {weatherData.name}</h3>
       <div>Temperature: {convertFromKelvin(weatherData.main.temp)}</div>
+      <div>
+        It is {weatherData.weather[0].main}
+        <img alt="test" src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}></img>
+        in {weatherData.name}!
+      </div>
+      
     </>
   ) : (
     <div>An unexpected error occurred while fetching weather data.</div>
