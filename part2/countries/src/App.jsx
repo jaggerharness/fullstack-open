@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import "./index.css";
 import countryService from "./services/countries";
 import weatherService from "./services/weather";
 
@@ -47,7 +48,11 @@ const CountryDetails = ({ country }) => {
       <div>Area Code: {country.area}</div>
       <h3>Languages</h3>
       <LanguageList languages={country.languages} />
-      <img alt={country.flags.alt} src={country.flags.png}></img>
+      <img
+        className="country-flag"
+        alt={country.flags.alt}
+        src={country.flags.png}
+      ></img>
       <Weather country={country} />
     </>
   );
@@ -75,7 +80,6 @@ const Weather = ({ country }) => {
     weatherService
       .fetchWeather(country)
       .then((weatherData) => {
-        console.log(weatherData);
         setWeatherData(weatherData);
       })
       .catch((error) => {
@@ -86,13 +90,15 @@ const Weather = ({ country }) => {
   return weatherData !== null ? (
     <>
       <h3>Weather in {weatherData.name}</h3>
-      <div>Temperature: {convertFromKelvin(weatherData.main.temp)}</div>
       <div>
-        It is {weatherData.weather[0].main}
-        <img alt="test" src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}></img>
-        in {weatherData.name}!
+        Temperature: {convertFromKelvin(weatherData.main.temp)} fahrenheit
       </div>
-      
+      <img
+        alt={weatherData.weather[0].description}
+        src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+      ></img>
+      <div>Wind: {weatherData.wind.speed} m/s</div>
+      <div></div>
     </>
   ) : (
     <div>An unexpected error occurred while fetching weather data.</div>
