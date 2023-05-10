@@ -22,7 +22,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>A more complex state, debugging React apps</li>
 </ol>
 
-### Part 2: Communicating with server - In Progress 💻
+### Part 2: Communicating with server - Complete ✔️
 
 <ol type="a">
   <li>Rendering a collection, modules</li>
@@ -32,7 +32,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Adding styles to React app</li>
 </ol>
 
-### Part 3: Programming a server with NodeJS and Express - TODO ⌛
+### Part 3: Programming a server with NodeJS and Express - In Progress 💻
 
 <ol type="a">
   <li>Node.js and Express</li>
