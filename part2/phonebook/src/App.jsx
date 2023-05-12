@@ -37,7 +37,7 @@ const AddNewForm = ({
 }) => {
   return (
     <>
-      <h2>add a new</h2>
+      <h2>Add New</h2>
       <form onSubmit={handleAddNew}>
         <div>
           name: <input value={newName} onChange={handleNameChanged} />
@@ -92,6 +92,7 @@ const App = () => {
   const handleAddNew = (event) => {
     event.preventDefault();
     const personToUpdate = persons.find((value) => value.name === newName);
+    console.log(personToUpdate);
     if (personToUpdate) {
       if (
         window.confirm(
@@ -123,8 +124,8 @@ const App = () => {
             });
             setTimeout(() => {
               setMessage({ message: "", type: "" });
+              window.location.reload();
             }, 3000);
-            window.location.reload();
           });
       }
     } else {
