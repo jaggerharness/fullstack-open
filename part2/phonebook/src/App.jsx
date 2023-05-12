@@ -136,9 +136,9 @@ const App = () => {
       personService.create(newPerson).then((response) => {
         setPersons(persons.concat(response.data));
         setMessage({ message: "New entry added successfully!", type: "success" });
-        setTimeout(() => {
-          setMessage({ message: "", type: "" });
-        }, 3000);
+        // setTimeout(() => {
+        //   setMessage({ message: "", type: "" });
+        // }, 3000);
       });
     }
 
