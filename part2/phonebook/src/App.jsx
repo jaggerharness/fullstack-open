@@ -9,7 +9,7 @@ const PhonebookList = ({ persons, search, handleDeletePerson }) => {
 
   if (search === "") {
     return persons.map((person) => (
-      <div key={person.name}>
+      <div key={person.id}>
         {" "}
         {`${person.name} ${person.number}`}{" "}
         <button value={person.id} onClick={handleDeletePerson}>
@@ -24,7 +24,7 @@ const PhonebookList = ({ persons, search, handleDeletePerson }) => {
   );
 
   return personsFiltered.map((person) => (
-    <div key={person.name}> {`${person.name} ${person.number}`} </div>
+    <div key={person.id}> {`${person.name} ${person.number}`} </div>
   ));
 };
 
