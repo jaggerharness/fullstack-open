@@ -92,7 +92,6 @@ const App = () => {
   const handleAddNew = (event) => {
     event.preventDefault();
     const personToUpdate = persons.find((value) => value.name === newName);
-    console.log(personToUpdate);
     if (personToUpdate) {
       if (
         window.confirm(
@@ -122,10 +121,6 @@ const App = () => {
                 "An unexpected error occurred while updating the phone number. Please try again!",
               type: "error",
             });
-            setTimeout(() => {
-              setMessage({ message: "", type: "" });
-              window.location.reload();
-            }, 3000);
           });
       }
     } else {
