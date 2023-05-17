@@ -115,12 +115,14 @@ const App = () => {
               setMessage({ message: "", type: "" });
             }, 3000);
           })
-          .catch((response) => {
+          .catch((error) => {
             setMessage({
-              message:
-                "An unexpected error occurred while updating the phone number. Please try again!",
+              message: error.response.data.error,
               type: "error",
             });
+            setTimeout(() => {
+              setMessage({ message: "", type: "" });
+            }, 3000);
           });
       }
     } else {
