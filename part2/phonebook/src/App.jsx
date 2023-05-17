@@ -177,7 +177,7 @@ const App = () => {
           }, 3000);
         });
       setPersons(
-        persons.filter((person) => person.id !== parseInt(event.target.value))
+        persons.filter((person) => person.id !== event.target.value)
       );
     }
   };
