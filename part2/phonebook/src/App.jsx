@@ -128,13 +128,24 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(newPerson).then((response) => {
-        setPersons(persons.concat(response.data));
-        setMessage({ message: "New entry added successfully!", type: "success" });
-        setTimeout(() => {
-          setMessage({ message: "", type: "" });
-        }, 3000);
-      });
+      personService
+        .create(newPerson)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setMessage({
+            message: "New entry added successfully!",
+            type: "success",
+          });
+          setTimeout(() => {
+            setMessage({ message: "", type: "" });
+          }, 3000);
+        })
+        .catch((error) => {
+          setMessage({ message: error.response.data.error, type: "error" });
+          setTimeout(() => {
+            setMessage({ message: "", type: "" });
+          }, 3000);
+        });
     }
 
     setNewName("");
@@ -176,9 +187,7 @@ const App = () => {
             setMessage({ message: "", type: "" });
           }, 3000);
         });
-      setPersons(
-        persons.filter((person) => person.id !== event.target.value)
-      );
+      setPersons(persons.filter((person) => person.id !== event.target.value));
     }
   };
 
