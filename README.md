@@ -32,7 +32,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Adding styles to React app</li>
 </ol>
 
-### Part 3: Programming a server with NodeJS and Express - In Progress 💻
+### Part 3: Programming a server with NodeJS and Express - Complete ✔️
 
 <ol type="a">
   <li>Node.js and Express</li>
@@ -41,7 +41,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Validation and ESLint</li>
 </ol>
 
-### Part 4: Testing Express servers, user administration - TODO ⌛
+### Part 4: Testing Express servers, user administration - In Progress 💻
 
 <ol type="a">
   <li>Structure of backend application, introduction to testing</li>
