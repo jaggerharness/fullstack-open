@@ -4,8 +4,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "Super Popular Title",
-    "author": "Super Popular Author",
+    "title": "Super Popular Title2",
+    "author": "Super Popular Author2",
     "url": "https://www.google.com/",
-    "likes": 1000000
+    "likes": 1000001
 }
