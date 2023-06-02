@@ -76,9 +76,20 @@ describe("blog api tests", () => {
 
     expect(blogsAfterDelete.body.length).toBe(initialBlogs.body.length - 1);
     // use lodash to check for deleted blog
-    expect(_.some(blogsAfterDelete, { id: initialBlogs.body[0].id })).toBe(
+    expect(_.some(blogsAfterDelete.body, { id: initialBlogs.body[0].id })).toBe(
       false
     );
+  });
+
+  test("existing blog is updated", async () => {
+    const initialBlogs = await api.get("/api/blogs").expect(200);
+    await api
+      .put(`/api/blogs/${initialBlogs.body[0].id}`)
+      .send({ likes: 999 })
+      .expect(200);
+    const blogsAfterUpdate = await api.get("/api/blogs").expect(200);
+
+    expect(_.some(blogsAfterUpdate.body, { likes: 999 })).toBe(true);
   });
 });
 
