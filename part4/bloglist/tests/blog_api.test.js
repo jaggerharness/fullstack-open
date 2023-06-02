@@ -3,6 +3,7 @@ const supertest = require("supertest");
 const app = require("../app");
 const Blog = require("../models/blogs");
 const helper = require("../utils/blog_api_helper");
+var _ = require("lodash");
 
 const api = supertest(app);
 
@@ -66,6 +67,18 @@ describe("blog api tests", () => {
       url: "testurlpost.com",
     };
     await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+
+  test("existing blog is deleted", async () => {
+    const initialBlogs = await api.get("/api/blogs").expect(200); // fetch blogs
+    await api.delete(`/api/blogs/${initialBlogs.body[0].id}`).expect(204); // delete blog
+    const blogsAfterDelete = await api.get("/api/blogs").expect(200); // refetch blogs
+
+    expect(blogsAfterDelete.body.length).toBe(initialBlogs.body.length - 1);
+    // use lodash to check for deleted blog
+    expect(_.some(blogsAfterDelete, { id: initialBlogs.body[0].id })).toBe(
+      false
+    );
   });
 });
 
