@@ -51,6 +51,22 @@ describe("blog api tests", () => {
     const response = await api.post("/api/blogs").send(newBlog).expect(201);
     expect(response.body.likes).toBe(0);
   });
+
+  test("new blog missing url is not added", async () => {
+    const newBlog = {
+      title: "Test Post",
+      author: "Test Post Author",
+    };
+    await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+
+  test("new blog missing title is not added", async () => {
+    const newBlog = {
+      author: "Test Post Author",
+      url: "testurlpost.com",
+    };
+    await api.post("/api/blogs").send(newBlog).expect(400);
+  });
 });
 
 afterAll(async () => {
