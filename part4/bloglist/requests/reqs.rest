@@ -9,3 +9,14 @@ content-type: application/json
     "url": "https://www.google.com/",
     "likes": 1000001
 }
+###
+GET http://localhost:3001/api/users
+###
+POST http://localhost:3001/api/users
+content-type: application/json
+
+{
+    "username": "jagger.dev",
+    "password": "password",
+    "name": "jagger"
+}
