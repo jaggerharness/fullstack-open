@@ -10,6 +10,8 @@ content-type: application/json
     "likes": 1000001
 }
 ###
+DELETE  http://localhost:3001/api/blogs/:id
+###
 GET http://localhost:3001/api/users
 ###
 POST http://localhost:3001/api/users
