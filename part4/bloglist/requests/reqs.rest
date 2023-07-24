@@ -17,6 +17,6 @@ content-type: application/json
 
 {
     "username": "jagger.dev",
-    "password": "password",
+    "password": "",
     "name": "jagger"
 }
