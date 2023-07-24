@@ -2,7 +2,6 @@ GET http://localhost:3001/api/blogs
 ###
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphZ2dlci5kZXYiLCJpZCI6IjY0YmNhYmRhYWIyM2JmMDdhNGYyYWNkOSIsImlhdCI6MTY5MDIyNTc0NCwiZXhwIjoxNjkwMjI5MzQ0fQ.lF5EmfM7QaRQMu0y5o-bSVXN2TkuqpiI68iyhRf0Z8o
 
 {
     "title": "Super Popular Title2",
@@ -11,7 +10,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphZ
     "likes": 1000002
 }
 ###
-DELETE  http://localhost:3001/api/blogs/:id
+DELETE  http://localhost:3001/api/blogs/64be8c46f082d58c0e6099a4
 ###
 GET http://localhost:3001/api/users
 ###
@@ -19,8 +18,8 @@ POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "username": "jagger.dev",
-    "password": "",
+    "username": "jagger.test",
+    "password": "password",
     "name": "jagger"
 }
 

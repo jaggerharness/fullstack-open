@@ -1,5 +1,4 @@
 const blogRouter = require("express").Router();
-const jwt = require("jsonwebtoken");
 const Blog = require("../models/blogs");
 const User = require("../models/users");
 
@@ -15,17 +14,19 @@ blogRouter.get("/", async (req, res) => {
 blogRouter.post("/", async (req, res) => {
   const body = req.body;
 
-  const decodedToken = jwt.verify(req.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return res.status(401).json({ error: "token invalid" })
+  const userId = req.userId; 
+
+  if(!userId){
+    res.status(401).end();
+    return;
   }
 
-  const user = await User.findById(decodedToken.id);
-
-  if (!body.title || !body.url) {
+  if (!(body.title && body.url)) {
     res.status(400).end();
     return;
   }
+
+  const user = await User.findById(req.userId);
 
   const blog = new Blog({
     title: body.title,
@@ -44,10 +45,24 @@ blogRouter.post("/", async (req, res) => {
 
 blogRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
+  const userId = req.userId;
+
+  if(!userId){
+    res.status(401).end();
+    return;
+  }
 
   if (!id) {
     res.status(400).end();
     return;
+  }
+
+  const blog = await Blog.findById(id);
+
+  if (!blog || blog.user.toString() !== userId.toString()) {
+    return res
+      .status(401)
+      .json({ error: "cannot delete blog owned by another user" });
   }
 
   await Blog.findByIdAndDelete(id);
