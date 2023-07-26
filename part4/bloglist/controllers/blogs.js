@@ -14,9 +14,7 @@ blogRouter.get("/", async (req, res) => {
 blogRouter.post("/", async (req, res) => {
   const body = req.body;
 
-  const userId = req.userId; 
-
-  if(!userId){
+  if(!req.user || !req.user.id){
     res.status(401).end();
     return;
   }
@@ -26,7 +24,7 @@ blogRouter.post("/", async (req, res) => {
     return;
   }
 
-  const user = await User.findById(req.userId);
+  const user = await User.findById(req.user.id);
 
   const blog = new Blog({
     title: body.title,
@@ -45,9 +43,9 @@ blogRouter.post("/", async (req, res) => {
 
 blogRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
-  const userId = req.userId;
+  const user = req.user;
 
-  if(!userId){
+  if(!user || !user.id){
     res.status(401).end();
     return;
   }
@@ -59,7 +57,7 @@ blogRouter.delete("/:id", async (req, res) => {
 
   const blog = await Blog.findById(id);
 
-  if (!blog || blog.user.toString() !== userId.toString()) {
+  if (!blog || blog.user.toString() !== user.id.toString()) {
     return res
       .status(401)
       .json({ error: "cannot delete blog owned by another user" });

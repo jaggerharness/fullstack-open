@@ -15,19 +15,19 @@ const tokenExtractor = (req, res, next) => {
 
   if (authorization && authorization.startsWith("Bearer ")) {
     req.token = authorization.replace("Bearer ", "");
-  } 
+  }
 
   next();
 };
 
 const userExtractor = (req, res, next) => {
   const token = req.token;
-  req.userId = null;
+  req.user = null;
 
   if(token){
     const decodedToken = jwt.verify(req.token, process.env.SECRET);
-    req.userId = decodedToken.id;
-  } 
+    req.user = decodedToken;
+  }
 
   next();
 };
