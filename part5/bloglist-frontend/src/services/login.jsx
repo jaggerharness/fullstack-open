@@ -3,7 +3,7 @@ const baseUrl = "/api/login";
 
 const attemptLogin = async (credentials) => {
   const res = await axios.post(baseUrl, credentials);
-  return res.body;
+  return res.data;
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
