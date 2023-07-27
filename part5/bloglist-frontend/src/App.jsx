@@ -1,37 +1,75 @@
 import { useState, useEffect } from "react";
 import "./index.css";
 import Blog from "./components/Blog";
+import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
-const Notification = ({ message }) => {
-  if (message.message === "") {
-    return null;
-  } else {
-    if (message.type === "success") {
-      return <div className="success">{message.message}</div>;
-    }
-    return <div className="error">{message.message}</div>;
-  }
+const BlogForm = ({
+  handleCreateBlog,
+  title,
+  author,
+  url,
+  handleTitleChange,
+  handleAuthorChange,
+  handleUrlChange,
+}) => {
+  return (
+    <>
+      <h2>Create New Blog</h2>
+      <form onSubmit={handleCreateBlog}>
+        <div>
+          Title
+          <input
+            type="text"
+            value={title}
+            name="title"
+            onChange={({ target }) => handleTitleChange(target.value)}
+          ></input>
+        </div>
+        <div>
+          Author
+          <input
+            type="text"
+            value={author}
+            name="author"
+            onChange={({ target }) => handleAuthorChange(target.value)}
+          ></input>
+        </div>
+        <div>
+          URL
+          <input
+            type="text"
+            value={url}
+            name="url"
+            onChange={({ target }) => handleUrlChange(target.value)}
+          ></input>
+        </div>
+        <button style={{ marginTop: 10 }} type="submit">
+          Submit
+        </button>
+      </form>
+    </>
+  );
 };
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
   const [message, setMessage] = useState({ message: "", type: "" });
 
-  const handleUserDetails = (user) => {
-    blogService.setToken(user.token);
-    setUser(user);
-  };
-
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    async function fetchBlogs() {
+      const blogs = await blogService.getAll();
+      setBlogs(blogs);
+    }
+    fetchBlogs();
   }, []);
 
   useEffect(() => {
@@ -41,6 +79,23 @@ const App = () => {
       handleUserDetails(user);
     }
   }, []);
+
+  const handleUserDetails = (user) => {
+    blogService.setToken(user.token);
+    setUser(user);
+  };
+
+  const handleTitleChange = (title) => {
+    setTitle(title);
+  };
+
+  const handleAuthorChange = (author) => {
+    setAuthor(author);
+  };
+
+  const handleUrlChange = (url) => {
+    setUrl(url);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -140,39 +195,12 @@ const App = () => {
           <Blog key={blog.id} blog={blog} />
         ))}
       </div>
-      <h2>Create New Blog</h2>
-      <form onSubmit={handleCreateBlog}>
-        <div>
-          Title
-          <input
-            type="text"
-            value={title}
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-          ></input>
-        </div>
-        <div>
-          Author
-          <input
-            type="text"
-            value={author}
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
-          ></input>
-        </div>
-        <div>
-          URL
-          <input
-            type="text"
-            value={url}
-            name="url"
-            onChange={({ target }) => setUrl(target.value)}
-          ></input>
-        </div>
-        <button style={{ marginTop: 10 }} type="submit">
-          Submit
-        </button>
-      </form>
+      <BlogForm
+        onSubmit={handleCreateBlog}
+        title={title}
+        author={author}
+        url={url}
+      />
     </div>
   );
 };
