@@ -1,7 +1,19 @@
 import { useState, useEffect } from "react";
+import "./index.css";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+
+const Notification = ({ message }) => {
+  if (message.message === "") {
+    return null;
+  } else {
+    if (message.type === "success") {
+      return <div className="success">{message.message}</div>;
+    }
+    return <div className="error">{message.message}</div>;
+  }
+};
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -11,6 +23,12 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const [message, setMessage] = useState({ message: "", type: "" });
+
+  const handleUserDetails = (user) => {
+    blogService.setToken(user.token);
+    setUser(user);
+  };
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -20,8 +38,7 @@ const App = () => {
     const savedUserDetails = window.localStorage.getItem("loggedInUser");
     if (savedUserDetails) {
       const user = JSON.parse(savedUserDetails);
-      blogService.setToken(user.token);
-      setUser(user);
+      handleUserDetails(user);
     }
   }, []);
 
@@ -31,13 +48,17 @@ const App = () => {
     try {
       const user = await loginService.attemptLogin({ username, password });
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
+      handleUserDetails(user);
       setUsername("");
       setPassword("");
     } catch (exception) {
-      console.log(exception);
-      alert("An unexpected error occurred, please try again.");
+      setMessage({
+        message: `Username or password incorrect. Please try again.`,
+        type: "error",
+      });
+      setTimeout(() => {
+        setMessage({ message: "", type: "" });
+      }, 3000);
     }
   };
 
@@ -53,18 +74,33 @@ const App = () => {
       const newBlog = { title, author, url };
       const addedBlog = await blogService.create(newBlog);
       setBlogs(blogs.concat(addedBlog));
+      // handle notification
+      setMessage({
+        message: `New Blog: ${title} by ${author} added successfully`,
+        type: "success",
+      });
+      setTimeout(() => {
+        setMessage({ message: "", type: "" });
+      }, 3000);
+      // reset form fields
       setTitle("");
       setAuthor("");
       setUrl("");
     } catch (exception) {
-      console.log(exception);
-      alert("An unexpected error occurred, please try again.");
+      setMessage({
+        message: "An unexpected error occurred. Please try again.",
+        type: "error",
+      });
+      setTimeout(() => {
+        setMessage({ message: "", type: "" });
+      }, 3000);
     }
   };
 
   if (user === null) {
     return (
       <div>
+        <Notification message={message} />
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -93,10 +129,17 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
       <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <div>
+        You are logged in as {user.name}
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+      <div style={{ marginTop: 20 }}>
+        {blogs.map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+      </div>
       <h2>Create New Blog</h2>
       <form onSubmit={handleCreateBlog}>
         <div>
@@ -126,9 +169,10 @@ const App = () => {
             onChange={({ target }) => setUrl(target.value)}
           ></input>
         </div>
-        <button type="submit">Submit</button>
+        <button style={{ marginTop: 10 }} type="submit">
+          Submit
+        </button>
       </form>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
