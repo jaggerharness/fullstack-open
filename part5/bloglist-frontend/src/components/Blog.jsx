@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-/* eslint-disable react/prop-types */
 const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
   const [detailsExpanded, setDetailsExpanded] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
@@ -8,7 +8,7 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
   };
@@ -24,7 +24,7 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
   };
 
   const removeBlog = async () => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
+    if (window.confirm('Are you sure you want to delete this blog?')) {
       handleRemoveBlog(blog);
     }
   };
@@ -33,9 +33,9 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
     <div style={blogStyle}>
       {blog.title} by {blog.author}
       <button onClick={handleDetailClick}>
-        {detailsExpanded ? "Hide" : "Show"} Details
+        {detailsExpanded ? 'Hide' : 'Show'} Details
       </button>
-      <div style={{ display: detailsExpanded ? "" : "none" }}>
+      <div style={{ display: detailsExpanded ? '' : 'none' }}>
         <div>{blog.url}</div>
         <div>
           Likes: {likes}
@@ -45,7 +45,7 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
           <button
             style={{
               display:
-                user && user.username === blog.user.username ? "" : "none",
+                user && user.username === blog.user.username ? '' : 'none',
             }}
             onClick={removeBlog}
           >
@@ -55,6 +55,13 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  handleBlogLiked: PropTypes.func.isRequired,
+  handleRemoveBlog: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
 
 export default Blog;

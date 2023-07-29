@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-/* eslint-disable react/prop-types */
 const LoginForm = ({ handleLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const login = (event) => {
     event.preventDefault();
     handleLogin({ username, password });
-    setUsername("");
-    setPassword("");
+    setUsername('');
+    setPassword('');
   };
 
   return (
@@ -36,6 +36,10 @@ const LoginForm = ({ handleLogin }) => {
       <button type="submit">Login</button>
     </form>
   );
+};
+
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
