@@ -41,7 +41,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Validation and ESLint</li>
 </ol>
 
-### Part 4: Testing Express servers, user administration - In Progress 💻
+### Part 4: Testing Express servers, user administration - Complete ✔️
 
 <ol type="a">
   <li>Structure of backend application, introduction to testing</li>
@@ -50,7 +50,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Token authentication</li>
 </ol>
 
-### Part 5: Testing React apps - TODO ⌛
+### Part 5: Testing React apps - In Progress 💻
 
 <ol type="a">
   <li>Login in frontend</li>
