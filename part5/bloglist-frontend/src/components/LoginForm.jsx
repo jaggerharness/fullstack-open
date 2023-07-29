@@ -1,34 +1,41 @@
-const LoginForm = ({
-    username,
-    password,
-    handleLogin,
-    handleUsernameChange,
-    handlePasswordChange,
-  }) => {
-    return (
-      <form onSubmit={handleLogin}>
-        <h2>Login</h2>
-        <div>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => handleUsernameChange(target.value)}
-            name="Username"
-          ></input>
-        </div>
-        <div>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => handlePasswordChange(target.value)}
-            name="Password"
-          ></input>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    );
+import { useState } from "react";
+
+/* eslint-disable react/prop-types */
+const LoginForm = ({ handleLogin }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = (event) => {
+    event.preventDefault();
+    handleLogin({ username, password });
+    setUsername("");
+    setPassword("");
   };
 
-  export default LoginForm;
+  return (
+    <form onSubmit={login}>
+      <h2>Login</h2>
+      <div>
+        Username:
+        <input
+          type="text"
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+          name="Username"
+        ></input>
+      </div>
+      <div>
+        Password:
+        <input
+          type="password"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          name="Password"
+        ></input>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  );
+};
+
+export default LoginForm;

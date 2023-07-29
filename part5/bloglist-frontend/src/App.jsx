@@ -10,8 +10,6 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState({ message: "", type: "" });
 
@@ -46,14 +44,6 @@ const App = () => {
     }, 3000);
   };
 
-  const handleUsernameChange = (username) => {
-    setUsername(username);
-  };
-
-  const handlePasswordChange = (password) => {
-    setPassword(password);
-  };
-
   const handleCreateBlog = async (newBlog) => {
     try {
       const addedBlog = await blogService.create(newBlog);
@@ -64,7 +54,14 @@ const App = () => {
       });
       blogFormRef.current.toggleVisibility();
     } catch (exception) {
-      console.log(exception);
+      if (exception.response.status === 401) {
+        handleLogout();
+        handleShowNotification({
+          message: "Session expired. Please login to create new blog.",
+          type: "error",
+        });
+        return;
+      }
       handleShowNotification({
         message: "An unexpected error occurred. Please try again.",
         type: "error",
@@ -72,11 +69,54 @@ const App = () => {
     }
   };
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
+  const handleBlogLiked = async (likedBlog) => {
     try {
-      const user = await loginService.attemptLogin({ username, password });
+      await blogService.update(likedBlog);
+      handleShowNotification({
+        message: `Blog: ${likedBlog.title} liked`,
+        type: "success",
+      });
+    } catch (exception) {
+      setMessage({
+        message: `An unexpected error occurred. Please try again.`,
+        type: "error",
+      });
+      setTimeout(() => {
+        setMessage({ message: "", type: "" });
+      }, 3000);
+    }
+  };
+
+  const handleRemoveBlog = async (blogToRemove) => {
+    try {
+      await blogService.remove(blogToRemove);
+      handleShowNotification({
+        message: `Blog: ${blogToRemove.title} deleted`,
+        type: "success",
+      });
+      setBlogs(blogs.filter((blog) => blog.id !== blogToRemove.id));
+    } catch (exception) {
+      if (exception.response.status === 401 && exception.response.data === "") {
+        handleLogout();
+        handleShowNotification({
+          message: "Session expired. Please login to create new blog.",
+          type: "error",
+        });
+        return;
+      }
+      setMessage({
+        message: `An unexpected error occurred. Please try again.`,
+        type: "error",
+      });
+      setTimeout(() => {
+        setMessage({ message: "", type: "" });
+      }, 3000);
+    }
+  };
+
+  const handleLogin = async (userDetails) => {
+    try {
+      const user = await loginService.attemptLogin(userDetails);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
       handleUserDetails(user);
     } catch (exception) {
@@ -88,9 +128,6 @@ const App = () => {
         setMessage({ message: "", type: "" });
       }, 3000);
     }
-
-    setUsername("");
-    setPassword("");
   };
 
   const handleLogout = () => {
@@ -101,16 +138,10 @@ const App = () => {
   return (
     <div>
       <Notification message={message} />
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       {user === null ? (
         <Togglable buttonLabel="Login To Create New Blog">
-          <LoginForm
-            username={username}
-            password={password}
-            handleLogin={handleLogin}
-            handleUsernameChange={handleUsernameChange}
-            handlePasswordChange={handlePasswordChange}
-          />
+          <LoginForm handleLogin={handleLogin} />
         </Togglable>
       ) : (
         <div>
@@ -119,9 +150,17 @@ const App = () => {
         </div>
       )}
       <div style={{ marginTop: 20 }}>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
+        {blogs
+          .sort((firstBlog, secondBlog) => secondBlog.likes - firstBlog.likes)
+          .map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleBlogLiked={handleBlogLiked}
+              handleRemoveBlog={handleRemoveBlog}
+              user={user}
+            />
+          ))}
       </div>
       {user !== null && (
         <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
