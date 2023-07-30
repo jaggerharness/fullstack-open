@@ -32,10 +32,10 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}
-      <button onClick={handleDetailClick}>
+      <button className='toggleDetailsBtn' onClick={handleDetailClick}>
         {detailsExpanded ? 'Hide' : 'Show'} Details
       </button>
-      <div style={{ display: detailsExpanded ? '' : 'none' }}>
+      <div className='blogDetail' style={{ display: detailsExpanded ? '' : 'none' }}>
         <div>{blog.url}</div>
         <div>
           Likes: {likes}
