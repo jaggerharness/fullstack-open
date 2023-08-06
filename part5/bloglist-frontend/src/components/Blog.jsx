@@ -30,12 +30,15 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       {blog.title} by {blog.author}
-      <button className='toggleDetailsBtn' onClick={handleDetailClick}>
+      <button className="toggleDetailsBtn" onClick={handleDetailClick}>
         {detailsExpanded ? 'Hide' : 'Show'} Details
       </button>
-      <div className='blogDetail' style={{ display: detailsExpanded ? '' : 'none' }}>
+      <div
+        className="blogDetail"
+        style={{ display: detailsExpanded ? '' : 'none' }}
+      >
         <div>{blog.url}</div>
         <div>
           Likes: {likes}
@@ -45,7 +48,7 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
           <button
             style={{
               display:
-                user && user.id === blog.user.id ? '' : 'none',
+                user && user.username === blog.user.username ? '' : 'none',
             }}
             onClick={removeBlog}
           >

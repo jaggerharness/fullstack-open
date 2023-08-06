@@ -105,9 +105,6 @@ describe('Blog application', () => {
       cy.contains('New Title by New Author').should('not.exist');
     });
 
-    // This test is failing because Show / Hide details persisting across logins
-    // Delete button is showing incorrectly 
-    
     it('Only the user who created the blog can see the delete button', () => {
       cy.contains('Login To Create New Blog').click();
       cy.get('#username').type('jagger.dev');
@@ -127,6 +124,7 @@ describe('Blog application', () => {
 
       cy.contains('Show Details').click();
       cy.contains('Delete');
+      cy.contains('Hide Details').click();
 
       // log out and switch user
       cy.contains('Logout').click();
@@ -145,7 +143,52 @@ describe('Blog application', () => {
 
       cy.contains('New Title by New Author');
       cy.contains('Show Details').click();
-      cy.contains('Delete').should('not.exist');
+      cy.contains('Delete').should('be.not.visible');
+    });
+
+    it('Blogs are ordered by most likes', () => {
+      cy.contains('Login To Create New Blog').click();
+      cy.get('#username').type('jagger.dev');
+      cy.get('#password').type('password');
+      cy.get('#loginBtn').click();
+
+      cy.contains('You are logged in as jagger');
+
+      cy.contains('Create New Blog').click();
+      cy.get('#title').type('Unpopular Title');
+      cy.get('#author').type('Unpopular Author');
+      cy.get('#url').type('Unpopular URL');
+      cy.get('#submitBtn').click();
+
+      cy.contains('added successfully').should('have.class', 'success');
+      cy.contains('Unpopular Title by Unpopular Author');
+      cy.contains('Show Details').click();
+      cy.contains('Like').click();
+      cy.contains('liked').should('have.class', 'success');
+
+      cy.contains('Create New Blog').click();
+      cy.get('#title').type('Popular Title');
+      cy.get('#author').type('Popular Author');
+      cy.get('#url').type('Popular URL');
+      cy.get('#submitBtn').click();
+
+      cy.contains('added successfully').should('have.class', 'success');
+      cy.contains('Popular Title by Popular Author')
+        .contains('Show Details')
+        .click();
+      cy.contains('Popular Title by Popular Author').contains('Like').click();
+      cy.contains('liked').should('have.class', 'success');
+      cy.contains('Popular Title by Popular Author').contains('Like').click();
+      cy.contains('liked').should('have.class', 'success');
+      cy.contains('Popular Title by Popular Author').contains('Like').click();
+      cy.contains('liked').should('have.class', 'success');
+      cy.contains('Popular Title by Popular Author').contains('Like').click();
+      cy.contains('liked').should('have.class', 'success');
+      cy.reload();
+
+      // Check order
+      cy.get('.blog').eq(0).should('contain', 'Popular Title by Popular Author')
+      cy.get('.blog').eq(1).should('contain', 'Unpopular Title by Unpopular Author')
     });
   });
 });
