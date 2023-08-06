@@ -10,7 +10,9 @@ content-type: application/json
     "likes": 1000002
 }
 ###
-DELETE  http://localhost:3001/api/blogs/64be8c46f082d58c0e6099a4
+DELETE  http://localhost:3001/api/blogs/64bf4485ed816c7f58ec89c5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphZ2dlci50ZXN0IiwiaWQiOiI2NGNlZjczYjQ0ZGMzOWVkMzI1YzA4MmIiLCJpYXQiOjE2OTEyODUzMjgsImV4cCI6MTY5MTI4ODkyOH0.BAsOztx09HujfPG2l0QUr3HMfFcw8B079IJr6iYPEnk
 ###
 GET http://localhost:3001/api/users
 ###
@@ -18,7 +20,7 @@ POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "username": "jagger.unit.test",
+    "username": "jagger.test",
     "password": "password",
     "name": "jagger"
 }
@@ -28,6 +30,6 @@ POST http://localhost:3001/api/login
 content-type: application/json
 
 {
-    "username": "jagger.unit",
+    "username": "jagger.test",
     "password": "password"
 }
