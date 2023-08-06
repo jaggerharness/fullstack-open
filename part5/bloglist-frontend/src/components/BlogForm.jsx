@@ -25,6 +25,7 @@ const BlogForm = ({ handleCreateBlog }) => {
         <div>
           Title
           <input
+          id='title'
             type="text"
             value={title}
             name="title"
@@ -35,6 +36,7 @@ const BlogForm = ({ handleCreateBlog }) => {
         <div>
           Author
           <input
+          id='author'
             type="text"
             value={author}
             name="author"
@@ -45,6 +47,7 @@ const BlogForm = ({ handleCreateBlog }) => {
         <div>
           URL
           <input
+          id='url'
             type="text"
             value={url}
             name="url"
@@ -52,7 +55,7 @@ const BlogForm = ({ handleCreateBlog }) => {
             placeholder='Input URL'
           ></input>
         </div>
-        <button style={{ marginTop: 3 }} type="submit">
+        <button id='submitBtn' style={{ marginTop: 3 }} type="submit">
           Submit
         </button>
       </form>

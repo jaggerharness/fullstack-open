@@ -18,6 +18,7 @@ const App = () => {
   useEffect(() => {
     async function fetchBlogs() {
       const blogs = await blogService.getAll();
+      console.log(blogs);
       setBlogs(blogs);
     }
     fetchBlogs();
@@ -47,6 +48,7 @@ const App = () => {
   const handleCreateBlog = async (newBlog) => {
     try {
       const addedBlog = await blogService.create(newBlog);
+      console.log(addedBlog);
       setBlogs(blogs.concat(addedBlog));
       handleShowNotification({
         message: `New Blog: ${addedBlog.title} by ${addedBlog.author} added successfully`,

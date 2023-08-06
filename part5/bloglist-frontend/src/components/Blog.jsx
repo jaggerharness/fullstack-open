@@ -45,7 +45,7 @@ const Blog = ({ blog, handleBlogLiked, handleRemoveBlog, user }) => {
           <button
             style={{
               display:
-                user && user.username === blog.user.username ? '' : 'none',
+                user && user.id === blog.user.id ? '' : 'none',
             }}
             onClick={removeBlog}
           >
