@@ -50,7 +50,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
   <li>Token authentication</li>
 </ol>
 
-### Part 5: Testing React apps - In Progress 💻
+### Part 5: Testing React apps - Complete ✔️
 
 <ol type="a">
   <li>Login in frontend</li>
@@ -59,7 +59,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
  <li>End to end -testing</li>
 </ol>
 
-### Part 6: Advanced state management - TODO ⌛
+### Part 6: Advanced state management - In Progress 💻
 
 <ol type="a">
  <li>Flux-architecture and Redux</li>
