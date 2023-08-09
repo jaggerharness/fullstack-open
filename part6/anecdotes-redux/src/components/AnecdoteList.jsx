@@ -4,6 +4,7 @@ import Filter from './Filter';
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
+
   const anecdotes = useSelector((state) => {
     if (state.filter === '') {
       return state.anecdotes;
@@ -22,6 +23,7 @@ const AnecdoteList = () => {
       <h2>Anecdotes</h2>
       <Filter />
       {anecdotes
+        .slice()
         .sort(
           (firstAnecdote, secondAnecdote) =>
             secondAnecdote.votes - firstAnecdote.votes
