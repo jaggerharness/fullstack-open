@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { voteAnecdote } from '../reducers/anecdoteReducer';
+import { voteAnecdote, setAnecdotes } from '../reducers/anecdoteReducer';
+import anecdoteService from '../services/anecdotes';
 import Filter from './Filter';
 import {
   setNotification,
@@ -8,6 +10,12 @@ import {
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    anecdoteService
+      .getAll()
+      .then((anecdotes) => dispatch(setAnecdotes(anecdotes)));
+  }, [dispatch]);
 
   const anecdotes = useSelector((state) => {
     if (state.filter === '') {
