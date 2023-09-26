@@ -46,10 +46,8 @@ export const voteAnecdote = (anecdote) => {
     const updatedAnecdote = await anecdoteService.incrementAnecdoteVote(
       anecdote
     );
-    console.log(updatedAnecdote);
     dispatch(updateAnecdote(updatedAnecdote));
     dispatch(handleNotification('Vote recorded.', 5));
-    dispatch(setNotification('Vote recorded.'));
   };
 };
 
