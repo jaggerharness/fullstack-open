@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
+import { getAnecdotes, updateAnecdote } from "./services/requests";
 
 const AnecdoteList = ({ anecdotes, handleVote }) => {
   return (
@@ -33,17 +33,21 @@ const ErrorIndicator = () => {
 };
 
 const App = () => {
+  const queryClient = useQueryClient();
+
+  const updateAnecdoteMutation = useMutation({
+    mutationFn: updateAnecdote,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["anecdotes"] }),
+  });
+
   const handleVote = (anecdote) => {
-    console.log(anecdote);
+    updateAnecdoteMutation.mutate(anecdote);
   };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["anecdotes"],
-    queryFn: () =>
-      axios.get("http://localhost:3001/anecdotes").then((res) => res.data),
+    queryFn: getAnecdotes,
   });
-
-  const anecdotes = data;
 
   return (
     <div>
