@@ -59,7 +59,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
  <li>End to end -testing</li>
 </ol>
 
-### Part 6: Advanced state management - In Progress 💻
+### Part 6: Advanced state management - Complete ✔️
 
 <ol type="a">
  <li>Flux-architecture and Redux</li>
@@ -68,7 +68,7 @@ This repo contains work completed for the [Fullstack Open 2023 - Deep Dive Into 
  <li>React Query, useReducer and the context API</li>
 </ol>
 
-### Part 7: React router, custom hooks, styling app with CSS and webpack - TODO ⌛
+### Part 7: React router, custom hooks, styling app with CSS and webpack - In Progress 💻
 
 <ol type="a">
  <li>React-router</li>
